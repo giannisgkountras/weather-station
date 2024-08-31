@@ -1,10 +1,40 @@
+import React, { useEffect, useState } from "react";
+
 import clearDay from "./assets/Icons/yellow-sun-16526.png";
 import clearNight from "./assets/Icons/yellow-moon-16536.png";
 import cloudDay from "./assets/Icons/blue-clouds-and-yellow-sun-16529.png";
 import cloudNight from "./assets/Icons/blue-clouds-and-blue-moon-16538.png";
 import rain from "./assets/Icons/rain-and-blue-cloud-16530.png";
 
-function App() {
+const App: React.FC = () => {
+    interface espData {
+        temperature: number;
+        humidity: number;
+        timestamp: string;
+    }
+
+    const [stationData, setStationData] = useState<espData>({
+        temperature: 0,
+        humidity: 0,
+        timestamp: "",
+    });
+
+    useEffect(() => {
+        fetch("api/sensorData")
+            .then((response) => {
+                if (!response.ok) {
+                    throw new Error("Network response was not ok");
+                }
+                return response.json();
+            })
+            .then((data: espData) => {
+                setStationData(data);
+            })
+            .catch((error) => {
+                console.log(error.message);
+            });
+    }, []); // Empty dependency array means this useEffect runs only once when the component mounts
+
     interface weather {
         weather: string;
         temp: number;
@@ -61,6 +91,15 @@ function App() {
                         Thessaloniki
                     </h3>
                 </div>
+                <h2 className="font-semibold text-blue-400 text-2xl">
+                    Current Temperature: {stationData.temperature}
+                </h2>
+                <h2 className="font-semibold text-blue-400 text-2xl">
+                    Current Humidity: {stationData.humidity}
+                </h2>
+                <h2 className="font-semibold text-blue-400 text-2xl">
+                    Time: {stationData.timestamp}
+                </h2>
                 <div className="flex justify-evenly items-center w-full h-full">
                     {weatherData.map((entry) => (
                         <div className="flex flex-col justify-start items-start p-4 w-3/4 h-3/5 bg-slate-700 mx-4 rounded-xl">
@@ -93,6 +132,6 @@ function App() {
             </div>
         </div>
     );
-}
+};
 
 export default App;
