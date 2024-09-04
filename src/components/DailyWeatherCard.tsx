@@ -1,41 +1,32 @@
 import React from "react";
-import clearDay from "../assets/Icons/yellow-sun-16526.png";
-import clearNight from "../assets/Icons/yellow-moon-16536.png";
-import cloudDay from "../assets/Icons/blue-clouds-and-yellow-sun-16529.png";
-import cloudNight from "../assets/Icons/blue-clouds-and-blue-moon-16538.png";
-import rain from "../assets/Icons/rain-and-blue-cloud-16530.png";
+
+import iconPick from "../utils/iconPicker";
+import dateFormat from "../utils/dateFormat";
 
 export default function DailyWeatherCard({ day }) {
-    console.log(day);
     return (
-        <div className="flex flex-col justify-start items-start p-4 w-3/4 h-3/5 bg-slate-700 mx-4 rounded-xl">
-            <p className="font-bold text-2xl text-purple-400">
-                {/* {entry.timestamp} */}
+        <div className="flex flex-col justify-start items-start w-32 min-w-32 h-40 bg-[#889398]  bg-opacity-50 mx-2 rounded-xl">
+            <p className="text-xl text-center w-full m-0">
+                {dateFormat(day.date)}
             </p>
             <div className="flex justify-center items-center w-full h-full">
-                {/* <img
-                    src={
-                        entry.weather == "clear" && entry.isDay
-                            ? clearDay
-                            : entry.weather == "clear" && !entry.isDay
-                            ? clearNight
-                            : entry.weather == "rain"
-                            ? rain
-                            : entry.weather == "cloud" && entry.isDay
-                            ? cloudDay
-                            : cloudNight
-                    }
-                    className="w-1/2"
-                ></img> */}
+                <img
+                    src={iconPick(
+                        day.weather_code,
+
+                        true
+                    )}
+                    className="w-24"
+                ></img>
             </div>
-            <p className="text-xl">Date{day.date}&deg;C</p>
-            <p className="text-xl">DaylightD{day.daylight_duration}&deg;C</p>
-            <p className="text-xl">Sunri{day.sunrise}&deg;C</p>
-            <p className="text-xl">Suns{day.sunset}&deg;C</p>
-            <p className="text-xl">Weath{day.weather_code}&deg;C</p>
-            <p className="text-xl">Max{day.temperature_2m_max}&deg;C</p>
-            <p className="text-xl">Min{day.temperature_2m_min}&deg;C</p>
-            {/* <p>{entry.humid}%</p> */}
+            <div className="flex justify-evenly w-full h-full items-start">
+                <p className="text-l w-1/2 text-center bg-blue-400 rounded-xl bg-opacity-20 mx-1">
+                    {day.temperature_2m_min}&deg;C
+                </p>
+                <p className="text-l w-1/2 text-center bg-red-400 rounded-xl bg-opacity-20 mx-1 ">
+                    {day.temperature_2m_max}&deg;C
+                </p>
+            </div>
         </div>
     );
 }
