@@ -6,6 +6,7 @@ import tempIcon from "../assets/temperature.png";
 import humidityIcon from "../assets/humidity.png";
 import iconPick from "../utils/iconPicker";
 import HourlyWeatherCard from "../components/HourlyWeatherCard";
+import whatDayIsit from "../utils/whatDayIsIt";
 
 export default function MainScreen() {
     interface espData {
@@ -70,30 +71,34 @@ export default function MainScreen() {
                 }));
                 setDailyData(dailyResult);
                 setHourlyData(hourlyResult);
-                console.log(data);
+                // console.log(data);
             })
             .catch((error) => {
                 console.log(error.message);
             });
     }, []); // Empty dependency array means this useEffect runs only once when the component mounts
-    console.log(hourlyData);
 
     return (
-        <div className="flex justify-center items-center w-screen min-h-max flex-col bg-[#e6f4f1]  overflow-auto">
-            <div className="flex justify-start items-center w-screen h-screen  flex-col">
-                <div className="flex justify-center items-start flex-col w-11/12 py-4 ">
+        <div className="flex justify-center items-center w-screen  min-h-screen flex-col bg-[#e6f4f1]">
+            <div className="flex justify-start items-center w-screen flex-col">
+                <div className="flex justify-center items-start flex-col w-11/12 py-2 ">
                     <h1 className="font-bold text-5xl text-sky-950">
                         Thessaloniki
                     </h1>
                     <h1 className="text-xl text-sky-950">
                         {!loadingForecast &&
-                            timeFormat(forecastData.current.time)}
+                            whatDayIsit() +
+                                " " +
+                                timeFormat(forecastData.current.time)}
                     </h1>
                 </div>
 
                 <div className="flex justify-between items-center flex-col w-11/12 h-64 py-2  bg-sky-950 bg-opacity-70 rounded-2xl">
                     <h1 className="text-lg w-full text-center">
-                        {loadingStation ? "Loading..." : "Live Data"}
+                        {loadingStation
+                            ? "Loading..."
+                            : "Live Data @" +
+                              stationData.timestamp.substring(0, 5)}
                     </h1>
 
                     <div className="flex w-full justify-evenly items-center">
@@ -133,18 +138,18 @@ export default function MainScreen() {
                         </div>
                     </div>
                 </div>
-                <div className="flex justify-start items-center flex-col w-11/12 h-60 py-2 min-h-60 bg-[#849fb3] bg-opacity-70 rounded-2xl mt-4 overflow-hidden">
+                <div className="flex justify-start items-center flex-col w-11/12 h-56 py-2 bg-[#849fb3] bg-opacity-70 rounded-2xl mt-4 overflow-hidden">
                     <h1 className="text-xl text-sky-950 mb-3">
                         Hourly forecast
                     </h1>
-                    <div className="flex justify-start items-start w-full overflow-auto">
+                    <div className="flex justify-start items-start w-full overflow-x-auto overflow-y-hidden">
                         {!loadingForecast &&
                             hourlyData.map((hour, index) => (
                                 <HourlyWeatherCard hour={hour} key={index} />
                             ))}
                     </div>
                 </div>
-                <div className="flex justify-start items-center flex-col w-11/12 h-60 py-2 min-h-60 bg-[#7d80a3] bg-opacity-70 rounded-2xl my-4 overflow-hidden">
+                <div className="flex justify-start items-center flex-col w-11/12 h-56 py-2 bg-[#7d80a3] bg-opacity-70 rounded-2xl my-4 overflow-x-auto overflow-y-hidden">
                     <h1 className="text-xl text-sky-950 mb-3">
                         Weekly forecast
                     </h1>
