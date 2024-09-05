@@ -7,6 +7,7 @@ import humidityIcon from "../assets/humidity.png";
 import iconPick from "../utils/iconPicker";
 import HourlyWeatherCard from "../components/HourlyWeatherCard";
 import whatDayIsit from "../utils/whatDayIsIt";
+import convertToGreekTime from "../utils/convertToGreekTime";
 
 export default function MainScreen() {
     interface espData {
@@ -20,22 +21,27 @@ export default function MainScreen() {
     const [loadingStation, setLoadingStation] = useState(true);
     const [dailyData, setDailyData] = useState([]);
     const [hourlyData, setHourlyData] = useState([]);
-    const [stationData, setStationData] = useState<espData>({
+    const [stationData, setStationData] = useState({
         temperature: 0,
         humidity: 0,
         timestamp: "",
     });
 
     useEffect(() => {
-        fetch("api/sensorData")
+        fetch("https://flying-flint-mare.glitch.me/latest")
             .then((response) => {
                 if (!response.ok) {
                     throw new Error("Network response was not ok");
                 }
                 return response.json();
             })
-            .then((data: espData) => {
-                setStationData(data);
+            .then((data) => {
+                console.log(data);
+                setStationData({
+                    temperature: data.data.temperature,
+                    humidity: data.data.humidity,
+                    timestamp: data.data.timestamp,
+                });
                 setLoadingStation(false);
             })
             .catch((error) => {
@@ -98,7 +104,9 @@ export default function MainScreen() {
                         {loadingStation
                             ? "Loading..."
                             : "Live Data @" +
-                              stationData.timestamp.substring(0, 5)}
+                              convertToGreekTime(
+                                  stationData.timestamp
+                              ).substring(12, 17)}
                     </h1>
 
                     <div className="flex w-full justify-evenly items-center">
