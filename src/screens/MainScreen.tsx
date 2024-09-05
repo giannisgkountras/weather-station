@@ -94,7 +94,7 @@ export default function MainScreen() {
                     <h1 className="text-xl text-sky-950">
                         {!loadingForecast &&
                             whatDayIsit() +
-                                " " +
+                                " " + // @ts-ignore
                                 timeFormat(forecastData.current.time)}
                     </h1>
                 </div>
@@ -116,8 +116,9 @@ export default function MainScreen() {
                         {!loadingForecast && (
                             <img
                                 src={iconPick(
+                                    // @ts-ignore
                                     forecastData.current.weather_code,
-
+                                    // @ts-ignore
                                     forecastData.current.is_day
                                 )}
                                 className="h-32"
@@ -132,6 +133,7 @@ export default function MainScreen() {
                             <img src={tempIcon} className="h-6"></img>
                             <h1 className="text-xl">
                                 {!loadingForecast &&
+                                    // @ts-ignore
                                     forecastData.current.temperature_2m}
                                 &deg;C
                             </h1>
@@ -140,6 +142,7 @@ export default function MainScreen() {
                             <img src={humidityIcon} className="h-8"></img>
                             <h1 className="text-xl">
                                 {!loadingForecast &&
+                                    // @ts-ignore
                                     forecastData.current.relative_humidity_2m}
                                 %
                             </h1>

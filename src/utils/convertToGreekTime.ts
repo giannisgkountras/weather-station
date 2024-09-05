@@ -15,6 +15,7 @@ function convertToGreekTime(timestamp) {
     };
 
     // Format the date to Greek time
+    // @ts-ignore
     return date.toLocaleString("en-GB", options);
 }
 
