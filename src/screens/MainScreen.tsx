@@ -36,7 +36,7 @@ export default function MainScreen() {
                 return response.json();
             })
             .then((data) => {
-                console.log(data);
+                // console.log(data);
                 setStationData({
                     temperature: data.data.temperature,
                     humidity: data.data.humidity,
@@ -86,7 +86,7 @@ export default function MainScreen() {
 
     return (
         <div className="flex justify-center items-center w-screen  min-h-screen flex-col bg-[#e6f4f1]">
-            <div className="flex justify-start items-center w-screen flex-col">
+            <div className="flex justify-start items-center w-screen flex-col lg:w-10/12">
                 <div className="flex justify-center items-start flex-col w-11/12 py-2 ">
                     <h1 className="font-bold text-5xl text-sky-950">
                         Thessaloniki
